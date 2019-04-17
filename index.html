@@ -1,0 +1,463 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>P03: Se&ntilde;ales en Tiempo Discreto</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-16"><meta name="DC.source" content="ASySPrac03JuanGarcia.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>P03: Se&ntilde;ales en Tiempo Discreto</h1><!--introduction--><p><img vspace="5" hspace="5" src="UPII.PNG" alt=""> </p><p><b>UNIDAD PROFESIONAL INTERDISCIPLINARIA EN INGENIER&Iacute;A Y TECNOLOG&Iacute;AS AVANZADAS</b></p><p><b>An&aacute;lisis de Se&ntilde;ales y Sistemas</b></p><p>Autores: Garc&iacute;a Sandoval Juan Jes&uacute;s y P&eacute;rez Miranda Jacob Isa&iacute;as 2MV1</p><p>Profesor: Dr Rafael Mart&iacute;nez Mart&iacute;nez</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos</a></li><li><a href="#2">Introducci&oacute;n</a></li><li><a href="#3">1.</a></li><li><a href="#4">2.</a></li><li><a href="#6">3.</a></li><li><a href="#10">4.</a></li><li><a href="#12">5.</a></li><li><a href="#14">6.</a></li><li><a href="#21">Ap&eacute;ndices</a></li><li><a href="#23">Referencias</a></li></ul></div><h2>Objetivos<a name="1"></a></h2><p>Como objetivos principales de la pr&aacute;ctica se pretende implementar la manipulaci&oacute;n b&aacute;sica de MATLAB, as&iacute; como la graficaci&oacute;n de se&ntilde;ales reales y complejas discretas, la transformaci&oacute;n de se&ntilde;ales discretas (escalamientos y traslaciones) y el c&aacute;lculo de energ&iacute;a y potencia de se&ntilde;ales discretas</p><h2>Introducci&oacute;n<a name="2"></a></h2><p>En la presente pr&aacute;ctica se desarrollar&aacute; una p&aacute;gina web, en lenguaje html utilizando MATLAB.</p><p>MATLAB es un software matem&aacute;tico desarrollado por MathWorks y su nombre proviene de la Abreviaci&oacute;n de MATrix LABoratory.</p><p>A lo largo de la pr&aacute;ctica se abordar&aacute; el procedimiento para tratar se&ntilde;ales en tiempo discreto, para lo cual es importante describir el tratamiento para escalar horizontalmente este tipo de se&ntilde;ales.</p><p>Para escalar horizontalmente una se&ntilde;al en tiempo discreto es necesario multiplicar el argumento por un escalar. Supongamos la funci&oacute;n <img src="ASySPrac03JuanGarcia_eq08869918233192190351.png" alt="$f[n]$"> (<i>figura 1 a</i>) nosotros al multiplicar por un escalar mayor a 1 conseguimos que la se&ntilde;al se comprima horizontalmente, sin embargo, si multiplicamos por un escalar entre 0 y 1 consegumios que la funci&oacute;n se expanda horizontalmente.</p><p>En la <i>figura 1 b</i> se muestra un ejemplo de una compresi&oacute;n horizontal, al multiplicar el argumento <i>x2</i></p><p>En la <i>figura 1 c</i> se muestra un ejemplo de una expansi&oacute;n horizontal, al multiplicar el argumento <i>x0.5</i></p><p><img vspace="5" hspace="5" src="COMP.PNG" alt=""> </p><p><i>Figura 1. tomada de Linear Systems and Singnals de BP Lathi</i></p><h2>1.<a name="3"></a></h2><p>Se cre&oacute; una funci&oacute;n llamada <i>fun1</i> la cual recibe dos parametros <img src="ASySPrac03JuanGarcia_eq01003107565813904020.png" alt="$\Omega$"> y <img src="ASySPrac03JuanGarcia_eq05508344529756732484.png" alt="$a$"> para entonces regesar la evaluaci&oacute;n <img src="ASySPrac03JuanGarcia_eq11455548145641183453.png" alt="$f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$"> como se muestra a continuaci&oacute;n:</p><pre class="language-matlab"><span class="keyword">function</span> [f ] = fun1( r,w )
+</pre><pre class="language-matlab">syms <span class="string">n</span>;
+f=r^n*(cos(w*n)+sin(w*n)*1j)
+</pre><pre class="language-matlab"><span class="keyword">end</span>
+</pre><p>A manera demostrativa, daremos los valores <img src="ASySPrac03JuanGarcia_eq08854055377056092152.png" alt="$r=2$"> y <img src="ASySPrac03JuanGarcia_eq14553646402560264136.png" alt="$\Omega = \pi$"></p><pre class="codeinput">Fun=fun1(2,pi)
+</pre><pre class="codeoutput"> 
+Fun =
+ 
+2^n*(cos(pi*n) + sin(pi*n)*1i)
+ 
+</pre><h2>2.<a name="4"></a></h2><p>Se crear&aacute; una funci&oacute;n que nos permita graficar con un estilo predefinido. En este caso se graficar&aacute; el ejemplo <img src="ASySPrac03JuanGarcia_eq14492615976455928922.png" alt="$x[n]=na^nu[n]$"> vs <img src="ASySPrac03JuanGarcia_eq08984225997457563733.png" alt="$n$"> y proponemos <img src="ASySPrac03JuanGarcia_eq00212765013998882747.png" alt="$a=0.9$">. La funci&oacute;n se invoca de la siguiente manera:  <i>Figura(valores en x, valores en y, 't&iacute;tulo del gr&aacute;fico')</i></p><pre class="codeinput">close <span class="string">all</span>
+n=-2:10;
+a=0.9;
+x=@(n) n.*(a.^n).*heaviside(n);
+Figura(n,x(n),<span class="string">'x[n]'</span>)
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_01.png" alt=""> <p>El c&oacute;digo de la funci&oacute;n Figura se escuentra en el ap&eacute;ndice 1</p><h2>3.<a name="6"></a></h2><p>Se crear&aacute; una funci&oacute;n que grafique funciones de <img src="ASySPrac03JuanGarcia_eq05446050511848030240.png" alt="$f : N \rightarrow R^2$">. A maneraa de demostraci&oacute;n se graficar&aacute; la funci&oacute;n del ejercicio 1: <img src="ASySPrac03JuanGarcia_eq11455548145641183453.png" alt="$f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$"></p><pre class="codeinput">close <span class="string">all</span>
+r=1.1;
+w=0.5;
+f=@(n) r.^n.*(cos(w.*n)+sin(w.*n).*1j);
+FiguraCmplx(n,real(f(n)),imag(f(n)))
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_02.png" alt=""> <p>El c&oacute;digo de la funci&oacute;n FiguraCmplx se escuentra en el ap&eacute;ndice 2</p><p>tambi&eacute;n se reportar&aacute; la gr&aacute;fica de <img src="ASySPrac03JuanGarcia_eq05380890773232186944.png" alt="$|f[n]|$"> como sigue a continuaci&oacute;n</p><pre class="codeinput"> mag=@(n) abs(f(n));
+ Figura(n,mag(n),<span class="string">'|f[n]|'</span>)
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_03.png" alt=""> <p>y la gr&aacute;fica de <img src="ASySPrac03JuanGarcia_eq12048250087022819900.png" alt="$\angle f[n]$"></p><pre class="codeinput">ang=@(n) angle(f(n));
+ Figura(n,ang(n),<span class="string">'&lt;f[n]'</span>)
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_04.png" alt=""> <h2>4.<a name="10"></a></h2><p>Para este punto se ha elaborado la funci&oacute;n <i>energiadis</i>, la cual recibe un vector tiempo y las alturas asignadas.</p><p>El c&oacute;digo se ha implementado de la siguiente manera:</p><pre class="language-matlab"><span class="keyword">function</span> [ E ] = energiadis( h)
+ff=h.^2;
+E=sum(ff);
+<span class="keyword">end</span>
+</pre><p>A manera de demostraci&oacute;n se obtendr&aacute; la energ&iacute;a de la funci&oacute;n planteada en el ejercicio 2: <img src="ASySPrac03JuanGarcia_eq14492615976455928922.png" alt="$x[n]=na^nu[n]$"></p><pre class="codeinput">E1=energiadis(x(n))
+</pre><pre class="codeoutput">
+E1 =
+
+   81.3736
+
+</pre><p>Y tambi&eacute;n lleva a cabo el c&aacute;lculo de la energ&iacute;a de se&ntilde;ales complejas como la del ejercicio 1: <img src="ASySPrac03JuanGarcia_eq11455548145641183453.png" alt="$f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$"></p><pre class="codeinput">E2=energiadis(f(n))
+</pre><pre class="codeoutput">
+E2 =
+
+  -6.7153 + 1.9690i
+
+</pre><h2>5.<a name="12"></a></h2><p>Resolver el ejercicio 3.1.1.c) del Lathi</p><p><i>Find the energy of the signals depicted</i></p><pre class="codeinput">close <span class="string">all</span>
+clear <span class="string">all</span>
+u=@(n) (n&gt;=0 &amp; n&gt;=0);
+n=-5:5;
+x=@(n) n.*(u(n+3)-u(n-4));
+Figura(n,x(n),<span class="string">'c)'</span>)
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_05.png" alt=""> <p>Para resolver este problema, unicamente debemos ejecutar la funci&oacute;n desarrollada en el ejercicio 4:</p><pre class="codeinput">energiadis(x(n))
+</pre><pre class="codeoutput">
+ans =
+
+    28
+
+</pre><h2>6.<a name="14"></a></h2><p>Resolver el ejercicio 3.2.3. del Lathi</p><p><i>For the signal shown, sketch the following signals:</i></p><pre class="codeinput">close <span class="string">all</span>
+clear <span class="string">all</span>
+u=@(n) (n&gt;=0 &amp; n&gt;=0);
+n=-12:21;
+x=@(n) (n.*(u(n)-u(n-4)))+((-n+6).*(u(n-4)-u(n-6)));
+Figura(n,x(n),<span class="string">'x[n]'</span>)
+axis <span class="string">equal</span>
+xlim([-1 7])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_06.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq04884917671509635024.png" alt="$a) x[-n]$"></p><pre class="codeinput">Figura(n,x(-n),<span class="string">'a)x[-n]'</span>)
+axis <span class="string">equal</span>
+xlim([-7 1])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_07.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq15896834739787534650.png" alt="$b) x[n+6]$"></p><pre class="codeinput">Figura(n,x(n+6),<span class="string">'b)x[n+6]'</span>)
+axis <span class="string">equal</span>
+xlim([-7 1])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_08.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq06870409156691193959.png" alt="$c) x[n-6]$"></p><pre class="codeinput">Figura(n,x(n-6),<span class="string">'c)x[n-6]'</span>)
+axis <span class="string">equal</span>
+xlim([5 13])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_09.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq16743705510444725403.png" alt="$d) x[3n]$"></p><pre class="codeinput">Figura(n,x(3.*n),<span class="string">'d)x[3n]'</span>)
+axis <span class="string">equal</span>
+xlim([-1 7])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_10.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq11201852729229817497.png" alt="$e) x[\frac{n}{3}]$"></p><pre class="codeinput">uu=@(nn) (nn&gt;=0 &amp; nn&gt;=0);
+nn= 0:3:21;
+xx=@(nn) ((nn./3).*(uu(nn)-uu(nn-10)))+(((-nn./3)+6).*(uu(nn-10)-uu(nn-18)));
+Figura(nn,xx(nn),<span class="string">'e)x[n/3]'</span>)
+xlim([-0 19])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_11.png" alt=""> <p><img src="ASySPrac03JuanGarcia_eq04466859870264611766.png" alt="$f) x[3-n]$"></p><pre class="codeinput">Figura(n,x(3-n),<span class="string">'f)x[3-n]'</span>)
+axis <span class="string">equal</span>
+xlim([-4 4])
+ylim([-1 4])
+</pre><img vspace="5" hspace="5" src="ASySPrac03JuanGarcia_12.png" alt=""> <h2>Ap&eacute;ndices<a name="21"></a></h2><p><b>Ap&eacute;ndice 1</b></p><pre class="language-matlab"><span class="keyword">function</span> Figura(X1, Y1,titl)
+<span class="comment">%CREATEFIGURE(X1, Y1)</span>
+<span class="comment">%  X1:  stem x</span>
+<span class="comment">%  Y1:  stem y</span>
+</pre><pre class="language-matlab"><span class="comment">%  Auto-generated by MATLAB on 15-Apr-2019 21:17:37</span>
+</pre><pre class="language-matlab"><span class="comment">% Create figure</span>
+figure1 = figure;
+</pre><pre class="language-matlab"><span class="comment">% Create axes</span>
+axes1 = axes(<span class="string">'Parent'</span>,figure1);
+hold(axes1,<span class="string">'on'</span>);
+</pre><pre class="language-matlab"><span class="comment">% Create stem</span>
+stem(X1,Y1,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[1 0 0]);
+</pre><pre class="language-matlab"><span class="comment">% Create title</span>
+title(titl);
+</pre><pre class="language-matlab"><span class="comment">% Set the remaining axes properties</span>
+set(axes1,<span class="string">'Color'</span>,[1 0.968627452850342 0.921568632125854],<span class="string">'FontName'</span>,<span class="keyword">...</span>
+    <span class="string">'Century Gothic'</span>,<span class="string">'XAxisLocation'</span>,<span class="string">'origin'</span>,<span class="string">'XGrid'</span>,<span class="string">'on'</span>,<span class="string">'YAxisLocation'</span>,<span class="keyword">...</span>
+    <span class="string">'origin'</span>,<span class="string">'YGrid'</span>,<span class="string">'on'</span>);
+</pre><p><b>Ap&eacute;ndice 2</b></p><pre class="language-matlab"><span class="keyword">function</span> FiguraCmplx(X1, Y1, Z1)
+<span class="comment">%CREATEFIGURE(X1, Y1, Z1)</span>
+<span class="comment">%  X1:  stem3 x</span>
+<span class="comment">%  Y1:  stem3 y</span>
+<span class="comment">%  Z1:  stem3 z</span>
+</pre><pre class="language-matlab"><span class="comment">%  Auto-generated by MATLAB on 16-Apr-2019 14:35:55</span>
+</pre><pre class="language-matlab"><span class="comment">% Create figure</span>
+figure1 = figure;
+</pre><pre class="language-matlab"><span class="comment">% Create axes</span>
+axes1 = axes(<span class="string">'Parent'</span>,figure1);
+hold(axes1,<span class="string">'on'</span>);
+</pre><pre class="language-matlab"><span class="comment">% Create stem3</span>
+stem3(X1,Y1,Z1,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[1 0 0]);
+</pre><pre class="language-matlab"><span class="comment">% Create xlabel</span>
+xlabel(<span class="string">'n'</span>);
+</pre><pre class="language-matlab"><span class="comment">% Create ylabel</span>
+ylabel(<span class="string">'Re'</span>);
+</pre><pre class="language-matlab"><span class="comment">% Create zlabel</span>
+zlabel(<span class="string">'Im'</span>);
+</pre><pre class="language-matlab">view(axes1,[14.9 44.4]);
+box(axes1,<span class="string">'on'</span>);
+grid(axes1,<span class="string">'on'</span>);
+<span class="comment">% Set the remaining axes properties</span>
+set(axes1,<span class="string">'FontName'</span>,<span class="string">'Century Gothic'</span>);
+</pre><h2>Referencias<a name="23"></a></h2><div><ol><li>B.P. Lathi. (2005). Linear Systems and Signals. New York: Oxford University Press, Inc.</li><li>Integral. 10 abril 2019, de MathWorks Sitio web: https://es.mathworks.com/discovery/integral.html</li><li>Limit. 10 abril 2019, de MathWorks Sitio web: https://www.mathworks.com/help/symbolic/limit.html</li><li>(2012). Juntas, pero no revueltas: sub-gr&aacute;ficas en una misma figura de Matlab . 10 abril 2019, de 5 minutos de Matlab Sitio web: <a href="http://5minutosdematlab.blogspot.com/2012/09/juntas-pero-no-revueltas-sub-graficas.html">http://5minutosdematlab.blogspot.com/2012/09/juntas-pero-no-revueltas-sub-graficas.html</a></li></ol></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% P03: Señales en Tiempo Discreto
+%
+% <<UPII.PNG>>
+%
+% *UNIDAD PROFESIONAL INTERDISCIPLINARIA EN INGENIERÍA Y TECNOLOGÍAS AVANZADAS* 
+% 
+% *Análisis de Señales y Sistemas*
+%
+% Autores: García Sandoval Juan Jesús y Pérez Miranda Jacob Isaías 2MV1
+%
+% Profesor: Dr Rafael Martínez Martínez
+%
+%% Objetivos 
+%
+% Como objetivos principales de la práctica se pretende implementar la manipulación básica de MATLAB, 
+% así como la graficación de señales reales y complejas discretas, la transformación de señales discretas 
+% (escalamientos y traslaciones) y el cálculo de energía y potencia de
+% señales discretas
+%
+%% Introducción
+%
+% En la presente práctica se desarrollará una página web, en lenguaje html utilizando MATLAB.
+% 
+% MATLAB es un software matemático desarrollado por MathWorks y su nombre proviene de
+% la Abreviación de MATrix LABoratory. 
+%
+% A lo largo de la práctica se abordará el procedimiento para tratar
+% señales en tiempo discreto, para lo cual es importante describir el
+% tratamiento para escalar horizontalmente este tipo de señales. 
+%
+% Para escalar horizontalmente una señal en tiempo discreto es necesario multiplicar el argumento por un escalar.
+% Supongamos la función $f[n]$ (_figura 1 a_) nosotros al multiplicar por un escalar mayor
+% a 1 conseguimos que la señal se comprima horizontalmente, sin embargo, si
+% multiplicamos por un escalar entre 0 y 1 consegumios que la función se
+% expanda horizontalmente.
+%
+% En la _figura 1 b_ se muestra un ejemplo de una compresión horizontal, al
+% multiplicar el argumento _x2_
+%
+% En la _figura 1 c_ se muestra un ejemplo de una expansión horizontal, al
+% multiplicar el argumento _x0.5_
+%
+%
+% 
+% <<COMP.PNG>>
+% 
+%
+% _Figura 1. tomada de Linear Systems and Singnals de BP Lathi_
+%
+%
+%% 1. 
+%
+% Se creó una función llamada _fun1_ la cual recibe dos parametros $\Omega$ y $a$ 
+% para entonces regesar la evaluación $f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$
+% como se muestra a continuación:
+%
+%   function [f ] = fun1( r,w )
+%   
+%   syms n;
+%   f=r^n*(cos(w*n)+sin(w*n)*1j)
+%
+%   end
+%
+% A manera demostrativa, daremos los valores $r=2$ y $\Omega = \pi$
+Fun=fun1(2,pi)
+%% 2.
+%
+% Se creará una función que nos permita graficar con un estilo predefinido.
+% En este caso se graficará el ejemplo 
+% $x[n]=na^nu[n]$ vs $n$ y proponemos $a=0.9$. La función se invoca de la siguiente manera:  _Figura(valores en x,
+% valores en y, 'título del gráfico')_
+%
+close all
+n=-2:10;
+a=0.9;
+x=@(n) n.*(a.^n).*heaviside(n);
+Figura(n,x(n),'x[n]')
+%%
+% El código de la función Figura se escuentra en el apéndice 1
+%% 3.
+%
+% Se creará una función que grafique funciones de $f : N \rightarrow R^2$.
+% A maneraa de demostración se graficará la función del ejercicio 1: $f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$
+%
+close all
+r=1.1;
+w=0.5;
+f=@(n) r.^n.*(cos(w.*n)+sin(w.*n).*1j);
+FiguraCmplx(n,real(f(n)),imag(f(n)))
+%%
+% El código de la función FiguraCmplx se escuentra en el apéndice 2
+ %%
+ % también se reportará la gráfica de $|f[n]|$ como sigue a continuación
+ %
+ mag=@(n) abs(f(n));
+ Figura(n,mag(n),'|f[n]|')
+ %%
+ % y la gráfica de $\angle f[n]$
+ %
+ang=@(n) angle(f(n));
+ Figura(n,ang(n),'<f[n]')
+ %% 4.
+%
+% Para este punto se ha elaborado la función _energiadis_, la cual recibe
+% un vector tiempo y las alturas asignadas.
+%
+% El código se ha implementado de la siguiente manera:
+%
+%   function [ E ] = energiadis( h)
+%   ff=h.^2;
+%   E=sum(ff);
+%   end
+%
+% A manera de demostración se obtendrá la energía de la función planteada
+% en el ejercicio 2: $x[n]=na^nu[n]$
+E1=energiadis(x(n))
+%%
+% Y también lleva a cabo el cálculo de la energía de señales complejas como
+% la del ejercicio 1: $f[n]=r^ncos(\Omega n)+r^nsen(\Omega n)j$
+E2=energiadis(f(n))
+%% 5. 
+%
+% Resolver el ejercicio 3.1.1.c) del Lathi
+%
+% _Find the energy of the signals depicted_
+close all
+clear all
+u=@(n) (n>=0 & n>=0);
+n=-5:5;
+x=@(n) n.*(u(n+3)-u(n-4)); 
+Figura(n,x(n),'c)')
+%%
+% Para resolver este problema, unicamente debemos ejecutar la función
+% desarrollada en el ejercicio 4:
+energiadis(x(n))
+%% 6.
+%
+% Resolver el ejercicio 3.2.3. del Lathi
+%
+% _For the signal shown, sketch the following signals:_
+close all
+clear all
+u=@(n) (n>=0 & n>=0);
+n=-12:21;
+x=@(n) (n.*(u(n)-u(n-4)))+((-n+6).*(u(n-4)-u(n-6))); 
+Figura(n,x(n),'x[n]')
+axis equal
+xlim([-1 7])
+ylim([-1 4])
+%%
+% $a) x[-n]$
+Figura(n,x(-n),'a)x[-n]')
+axis equal
+xlim([-7 1])
+ylim([-1 4])
+%%
+% $b) x[n+6]$
+Figura(n,x(n+6),'b)x[n+6]')
+axis equal
+xlim([-7 1])
+ylim([-1 4])
+%%
+% $c) x[n-6]$
+Figura(n,x(n-6),'c)x[n-6]')
+axis equal
+xlim([5 13])
+ylim([-1 4])
+%%
+% $d) x[3n]$
+Figura(n,x(3.*n),'d)x[3n]')
+axis equal
+xlim([-1 7])
+ylim([-1 4])
+%%
+% $e) x[\frac{n}{3}]$
+uu=@(nn) (nn>=0 & nn>=0);
+nn= 0:3:21;
+xx=@(nn) ((nn./3).*(uu(nn)-uu(nn-10)))+(((-nn./3)+6).*(uu(nn-10)-uu(nn-18))); 
+Figura(nn,xx(nn),'e)x[n/3]')
+xlim([-0 19])
+ylim([-1 4])
+%%
+% $f) x[3-n]$
+Figura(n,x(3-n),'f)x[3-n]')
+axis equal
+xlim([-4 4])
+ylim([-1 4])
+%% Apéndices
+%
+% *Apéndice 1*
+%
+%   function Figura(X1, Y1,titl)
+%   %CREATEFIGURE(X1, Y1)
+%   %  X1:  stem x
+%   %  Y1:  stem y
+% 
+%   %  Auto-generated by MATLAB on 15-Apr-2019 21:17:37
+% 
+%   % Create figure
+%   figure1 = figure;
+% 
+%   % Create axes
+%   axes1 = axes('Parent',figure1);
+%   hold(axes1,'on');
+% 
+%   % Create stem
+%   stem(X1,Y1,'LineWidth',2,'Color',[1 0 0]);
+% 
+%   % Create title
+%   title(titl);
+% 
+%   % Set the remaining axes properties
+%   set(axes1,'Color',[1 0.968627452850342 0.921568632125854],'FontName',...
+%       'Century Gothic','XAxisLocation','origin','XGrid','on','YAxisLocation',...
+%       'origin','YGrid','on');
+%%
+%
+% *Apéndice 2*
+%
+%   function FiguraCmplx(X1, Y1, Z1)
+%   %CREATEFIGURE(X1, Y1, Z1)
+%   %  X1:  stem3 x
+%   %  Y1:  stem3 y
+%   %  Z1:  stem3 z
+% 
+%   %  Auto-generated by MATLAB on 16-Apr-2019 14:35:55
+% 
+%   % Create figure
+%   figure1 = figure;
+% 
+%   % Create axes
+%   axes1 = axes('Parent',figure1);
+%   hold(axes1,'on');
+% 
+%   % Create stem3
+%   stem3(X1,Y1,Z1,'LineWidth',2,'Color',[1 0 0]);
+% 
+%   % Create xlabel
+%   xlabel('n');
+% 
+%   % Create ylabel
+%   ylabel('Re');
+% 
+%   % Create zlabel
+%   zlabel('Im');
+% 
+%   view(axes1,[14.9 44.4]);
+%   box(axes1,'on');
+%   grid(axes1,'on');
+%   % Set the remaining axes properties
+%   set(axes1,'FontName','Century Gothic');
+%
+%% Referencias
+% 
+% # B.P. Lathi. (2005). Linear Systems and Signals. New York: Oxford University Press, Inc.
+% # Integral. 10 abril 2019, de MathWorks Sitio web:
+% https://es.mathworks.com/discovery/integral.html
+% # Limit. 10 abril 2019, de MathWorks Sitio web: https://www.mathworks.com/help/symbolic/limit.html
+% # (2012). Juntas, pero no revueltas: sub-gráficas en una misma figura de Matlab . 10 abril 2019, de 5 minutos de Matlab Sitio web: http://5minutosdematlab.blogspot.com/2012/09/juntas-pero-no-revueltas-sub-graficas.html
+%
+
+
+##### SOURCE END #####
+--></body></html>
